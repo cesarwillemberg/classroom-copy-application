@@ -1,4 +1,4 @@
-import { AlignJustify, CircleUserRound, Grip, Plus } from "lucide-react";
+import { CircleUserRound, Grip, Plus } from "lucide-react";
 import Image from "next/image";
 
 export default function Navbar() {
