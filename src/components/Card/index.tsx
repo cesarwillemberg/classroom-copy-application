@@ -15,7 +15,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, group, professorName, deadline, activityDetails, profileImage }: CardProps) => {
     return (
-        <li className='bg-white shadow-md rounded-lg max-w-[19rem] w-full h-[20rem] mx-3 mb-5 border-solid border border-gray-400'>
+        <li className='bg-white shadow-md rounded-lg max-w-[19rem] w-full h-[18rem] mx-3 mb-5 border-solid border border-gray-400'>
             {/* Header */}
             <div className='bg-gray-800 text-white pt-4 pl-4 rounded-t-lg flex justify-between items-center'>
                 <div className='flex items-center'>
@@ -43,15 +43,15 @@ const Card: React.FC<CardProps> = ({ title, group, professorName, deadline, acti
             </div>
 
             {/* Content */}
-            <div className='flex-grow pb-5 pl-4 h-28'>
-                <div className='mt-4'>
-                    <p className='text-xs text-gray-500'>Data de entrega: {deadline}</p>
+            <div className={`flex-grow pb-5 pl-4 h-32`}>
+                <div className={`${ deadline ? '' : 'hidden' } mt-4`}>
+                    <p className={'text-xs text-gray-500'}>Data de entrega: {deadline}</p>
                     <p className='text-xs text-gray-700 truncate w-52 hover:underline'>{activityDetails}</p>
                 </div>
             </div>
 
             {/* Footer */}
-            <div className='flex justify-end items-center border-t p-4'>
+            <div className='flex justify-end items-center border-t-2 p-4'>
                 <button className='bg-gray-300 rounded-full flex items-center justify-center mx-5'>
                     <ContactRoundIcon size={24} />
                 </button>
