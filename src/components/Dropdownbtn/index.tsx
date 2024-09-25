@@ -1,6 +1,7 @@
 "use client"; // Para garantir que o componente é renderizado no lado do cliente
 import React, { useContext, useState } from 'react';
 import { SidebarContext } from "@/components/Sidebar/index";
+import './index.module.css';
 
 interface DropdownProps {
     children: React.ReactNode;
@@ -9,7 +10,7 @@ interface DropdownProps {
     border? : string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ children, label, icon, border }: DropdownProps) => {
+const Dropdown: React.FC<DropdownProps> = ({ children, label, icon, border}: DropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const context = useContext(SidebarContext);
 
