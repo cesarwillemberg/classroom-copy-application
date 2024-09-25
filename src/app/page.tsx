@@ -41,10 +41,10 @@ export default function Home() {
         return;
       }
       const data = await response.json();
-      setClasses(data as Class[]); // Definindo o estado com os dados recebidos
+      setClasses(data as Class[]);
     };
 
-    fetchClasses().catch(console.error); // Captura de erros
+    fetchClasses().catch(console.error);
   }, []);
 
 

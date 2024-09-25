@@ -13,7 +13,7 @@ interface ClassData {
 export async function GET() {
 
     try {
-        const connection = await mysql.createConnection("mysql://netjs:nextjs@localhost:3306/classroom_copy");
+        const connection = await mysql.createConnection("mysql://nextjs:nextjs@localhost:3306/classroom_copy");
         const [rows] = await connection.query("SELECT * FROM turmas;");
         await connection.end();
         return NextResponse.json(rows);
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     let connection: mysql.Connection | null = null;
 
     try {
-        connection = await mysql.createConnection("mysql://netjs:nextjs@localhost:3306/classroom_copy")
+        connection = await mysql.createConnection("mysql://nextjs:nextjs@localhost:3306/classroom_copy")
         console.log("Conexão com o banco de dados estabelecida.");
 
         const [result] = await connection.query(
