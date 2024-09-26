@@ -11,17 +11,32 @@ interface ClassData {
 
 
 export async function GET() {
-
     try {
+        // Conexão com o banco de dados
         const connection = await mysql.createConnection("mysql://nextjs:nextjs@localhost:3306/classroom_copy");
-        const [rows] = await connection.query("SELECT * FROM turmas;");
+
+        // Consultar as turmas e as imagens associadas
+        const [turmas] = await connection.query(`
+            SELECT t.*, 
+                   i.imagem AS profileImage 
+            FROM Turmas t
+            LEFT JOIN imagens i ON t.imagem_id = i.id
+        `);
+
+        // Converter BLOB para base64
+        const result = turmas.map(turma => ({
+            ...turma,
+            profileImage: turma.profileImage ? turma.profileImage.toString('base64') : null,
+        }));
+
         await connection.end();
-        return NextResponse.json(rows);
 
+        // Retornar as turmas com as imagens
+        return NextResponse.json(result);
+        
     } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 }); 
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
 }
 
 

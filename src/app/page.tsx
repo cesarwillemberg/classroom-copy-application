@@ -20,10 +20,11 @@ import {
 interface Class {
   id: number;
   nameClass: string;
-  group: string;
+  grupo: string;
   professorName: string;
   deadline: string;
   activityDetails: string;
+  profileImage: string | null;
 }
 
 
@@ -35,13 +36,13 @@ export default function Home() {
 
   useEffect(() => {
     const fetchClasses = async () => {
-      const response = await fetch('/api/cards');
-      if (!response.ok) {
-        console.error('Failed to fetch classes:', response.statusText);
-        return;
-      }
-      const data = await response.json();
-      setClasses(data as Class[]);
+        const response = await fetch('/api/cards');
+        if (!response.ok) {
+            console.error('Failed to fetch classes:', response.statusText);
+            return;
+        }
+        const data = await response.json();
+        setClasses(data as Class[]);
     };
 
     fetchClasses().catch(console.error);
@@ -67,11 +68,11 @@ export default function Home() {
                 <Card
                   key={classData.id}
                   title={classData.nameClass}
-                  group={classData.group}
+                  grupo={classData.grupo}
                   professorName={classData.professorName}
                   deadline={classData.deadline}
                   activityDetails={classData.activityDetails}
-                  profileImage={<CircleUserRound size={85} />}
+                  profileImage={classData.profileImage}
                 />
               ))}
             </CardParent>
