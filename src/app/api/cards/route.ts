@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
 import mysql from "mysql2/promise";
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
-
-
 
 export async function GET() {
     try {
