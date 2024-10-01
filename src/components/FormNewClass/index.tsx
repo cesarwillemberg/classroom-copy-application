@@ -12,8 +12,6 @@ interface ClassData {
     nameClass: string;
     group: string;
     professorName: string;
-    deadline: string;
-    activityDetails: string;
 }
 
 const FormNewClass: React.FC<ClassFormProps> = ({ onSubmit, onClose }: ClassFormProps) => {
@@ -21,29 +19,49 @@ const FormNewClass: React.FC<ClassFormProps> = ({ onSubmit, onClose }: ClassForm
         nameClass: '',
         group: '',
         professorName: '',
-        deadline: '',
-        activityDetails: '',
     });
+
+    const [imagemProfile, setImageProfile] = useState<File | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
+    
+        if (e.target instanceof HTMLInputElement && e.target.type === "file") {
+            const file = e.target.files ? e.target.files[0] : null;
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: file,
+            }));
+        } else {
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setImageProfile(file);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const formDataToSend  = new FormData();
+
+        formDataToSend.append('nameClass', formData.nameClass);
+        formDataToSend.append('group', formData.group);
+        formDataToSend.append('professorName', formData.professorName)
+        if (imagemProfile) {
+            formDataToSend.append('imageProfile', imagemProfile);
+        }
+
         try {
 
             const response = await fetch('/api/cards', {
                 method: 'POST',
-                body: JSON.stringify(formData),	
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                body: formDataToSend,
             }).then((response) => response.json()); 
 
             console.log(response);
@@ -55,9 +73,8 @@ const FormNewClass: React.FC<ClassFormProps> = ({ onSubmit, onClose }: ClassForm
                     nameClass: '',
                     group: '',
                     professorName: '',
-                    deadline: '',
-                    activityDetails: '',
                 });
+                setImageProfile(null);
                 onClose(); 
             } else {
                 alert("Erro ao criar turma: " + (response.error || "Erro desconhecido"));
@@ -105,6 +122,17 @@ const FormNewClass: React.FC<ClassFormProps> = ({ onSubmit, onClose }: ClassForm
                     onChange={handleChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
                     required
+                />
+            </div>
+
+            <div>
+                <label htmlFor="imageProfile" className="block text-sm font-medium text-gray-700 pb-3">Carregar imagem de perfil:</label>
+                <input
+                    type="file"
+                    id="imageProfile"
+                    name="imageProfile"
+                    accept="image/*"
+                    onChange={handleFileChange}
                 />
             </div>
 
