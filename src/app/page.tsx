@@ -1,11 +1,12 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Card from "@/components/Card";
 import CardParent from "@/components/CardParent";
 import Dropdownbtn from "@/components/Dropdownbtn";
 import DropdownItem from "@/components/DropdownItem";
 import Sidebar, { SidebarContext } from "@/components/Sidebar";
 import { SidebarItem } from "@/components/SidebarItem";
+import mysql from "mysql2/promise";
 import { 
   Calendar,
   GraduationCap,
@@ -16,9 +17,37 @@ import {
   CircleUserRound,
 } from "lucide-react";
 
+interface Class {
+  id: number;
+  nameClass: string;
+  grupo: string;
+  professorName: string;
+  deadline: string;
+  activityDetails: string;
+  profileImage: string | null;
+}
+
+
 export default function Home() {
   const context = useContext(SidebarContext);
   const isFixed = context?.isFixed; 
+  const [classes, setClasses] = useState<Class[]>([]);
+
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+        const response = await fetch('/api/cards');
+        if (!response.ok) {
+            console.error('Failed to fetch classes:', response.statusText);
+            return;
+        }
+        const data = await response.json();
+        setClasses(data as Class[]);
+    };
+
+    fetchClasses().catch(console.error);
+  }, []);
+
 
   return (
     <>
@@ -35,15 +64,15 @@ export default function Home() {
           </Sidebar>
           <div className={`flex-1 p-4 transition-all duration-300 ${isFixed ? 'ml-80' : 'ml-24'}`}>
             <CardParent>
-              {Array.from({ length: 15 }).map((_, index) => (
+              {classes.map((classData) => (
                 <Card
-                  key={index}
-                  title="IJ - Programação para Web"
-                  group="Grp00537"
-                  professorName="LORI RONALDO FLORES MACHADO"
-                  deadline="quarta-feira"
-                  activityDetails="22:30 - Missão 2 - Aplicação web com front-end e back-end - 200 XP - Grupo/Individual"
-                  profileImage={<CircleUserRound size={85} />}
+                  key={classData.id}
+                  title={classData.nameClass}
+                  grupo={classData.grupo}
+                  professorName={classData.professorName}
+                  deadline={classData.deadline}
+                  activityDetails={classData.activityDetails}
+                  profileImage={classData.profileImage}
                 />
               ))}
             </CardParent>
