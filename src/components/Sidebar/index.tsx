@@ -20,7 +20,7 @@ interface SidebarProps {
 
 export default function Sidebar({ children }: SidebarProps) {
     const [expanded, setExpanded] = useState<boolean>(false);
-    const [isFixed, setIsFixed] = useState<boolean>(true);
+    const [isFixed, setIsFixed] = useState<boolean>(false);
 
     const handleMouseEnter = () => {
         if (!isFixed) setExpanded(true);
