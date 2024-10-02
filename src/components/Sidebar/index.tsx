@@ -20,7 +20,7 @@ interface SidebarProps {
 
 export default function Sidebar({ children }: SidebarProps) {
     const [expanded, setExpanded] = useState<boolean>(false);
-    const [isFixed, setIsFixed] = useState<boolean>(false);
+    const [isFixed, setIsFixed] = useState<boolean>(true);
 
     const handleMouseEnter = () => {
         if (!isFixed) setExpanded(true);
@@ -39,7 +39,7 @@ export default function Sidebar({ children }: SidebarProps) {
         <SidebarContext.Provider value={{ expanded, setExpanded, isFixed, setIsFixed }}>
             <Navbar toggleSidebar={toggleSidebar} />
                 <aside 
-                    className={`fixed top-16 left-0 transition-all ${expanded ? 'w-80' : 'w-24'} border-r border-solid border-gray-400`}
+                    className={`fixed top-16 left-0 transition-all ${expanded ? 'w-[19rem]' : 'w-[4.8rem]'} border-r border-solid border-gray-400`}
                     style={{ height: `calc(100vh - 64px)`}} 
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={!isFixed ? handleMouseLeave : undefined}

@@ -25,20 +25,20 @@ const Dropdown: React.FC<DropdownProps> = ({ children, label, icon, border}: Dro
     };
 
     return (
-        <li className={`relative inline-block text-left ${border} w-full px-6`}>
+        <li className={`relative inline-block text-left ${border} w-full`}>
             <div>
                 <button
                     onClick={toggleDropdown}
-                    className="flex items-center py-2 font-medium text-gray-700 bg-white -ml-2"
+                    className="flex items-center py-2 font-medium  text-gray-700 pl-2 w-full hover:bg-gray-300"
                     aria-haspopup="true"
                     aria-expanded={isOpen}
 
                 >
-                    <svg className={`w-5 h-5 transition-transform ${isOpen && expanded ? 'rotate-90' : ''}`} viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 transition-transform  ${isOpen && expanded ? 'rotate-90' : ''}`} viewBox="0 0 24 24">
                         <path d="M10 17l5-5-5-5v10z" />
                     </svg>
                     {icon}
-                    <span className={`ml-2 overflow-hidden text-sm transition-all ${expanded ? "w-50 ml-3" : "w-0"}`}>{label}</span>
+                    <span className={`overflow-hidden text-sm transition-transform ${expanded ? 'w-28 ml-3' : 'w-0 hidden'}`}>{label}</span>
                     
                 </button>
             </div>

@@ -7,7 +7,7 @@ interface CardParentProps {
 
 const CardParent: React.FC<CardParentProps> = ({ children }) => {
     return (
-        <ol className='flex flex-wrap justify-start'>
+        <ol className='flex flex-wrap pt-4'>
             {children}
         </ol>
     );

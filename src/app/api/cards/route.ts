@@ -2,43 +2,57 @@ import { NextResponse } from "next/server";
 import mysql from "mysql2/promise";
 
 
-export async function GET() {
-    try {
-        const connection = await mysql.createConnection("mysql://nextjs:nextjs@localhost:3306/classroom_copy");
+interface Turma {
+    id: number;
+    nameClass: string;
+    group: string;
+    imagem_id?: number;
+    professorName: string;
+    profileImage: string | null;
+}
 
-        // Consultar as turmas e as imagens associadas
-        const [turmas] = await connection.query(`
+export async function GET() {
+    let connection: mysql.Connection | null = null;
+    try {
+        connection = await mysql.createConnection("mysql://nextjs:nextjs@localhost:3306/classroom_copy");
+
+        const [rows]: [any[], any] = await connection.query(`
             SELECT t.*, i.imagem AS profileImage 
             FROM Turmas t
             LEFT JOIN imagens i ON t.imagem_id = i.id
         `);
 
-        // Converter BLOB para base64
-        const result = turmas.map(turma => ({
-            ...turma,
-            profileImage: turma.profileImage ? turma.profileImage.toString('base64') : null,
-        }));
+        if (Array.isArray(rows)) {
+            const result: Turma[] = rows.map((turma: Turma) => ({
+                ...turma,
+                profileImage: turma.profileImage ? Buffer.from(turma.profileImage).toString('base64') : null,
+            }));
 
-        await connection.end();
-
-        return NextResponse.json(result);
-        
+            await connection.end();
+            return NextResponse.json(result);
+        } else {
+            throw new Error("Resultado inesperado da consulta.");
+        }        
     } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        if (error instanceof Error) {
+            console.error("Erro ao consultar turmas:", error.message);
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        } else {
+            console.error("Erro desconhecido ao consultar turmas:", error);
+            return NextResponse.json({ error: 'Erro desconhecido' }, { status: 500 });
+        }
     }
 }
 
 export async function POST(req: Request) {
     try {
-        // Extrai o FormData do request
         const formData = await req.formData();
-        
-        const nameClass = formData.get('nameClass') as string;
-        const group = formData.get('group') as string;
-        const professorName = formData.get('professorName') as string;
+
+        const nameClass = formData.get('nameClass') as string | null;
+        const group = formData.get('group') as string | null;
+        const professorName = formData.get('professorName') as string | null;
         const imageFile = formData.get('imageProfile') as File | null;
 
-        // Valida se os campos obrigatórios estão presentes
         if (!nameClass || !group || !professorName) {
             return NextResponse.json({ error: 'Campos obrigatórios faltando', created: false });
         }
@@ -46,22 +60,19 @@ export async function POST(req: Request) {
         let connection: mysql.Connection | null = null;
 
         try {
-            // Estabelece conexão com o banco de dados
             connection = await mysql.createConnection("mysql://nextjs:nextjs@localhost:3306/classroom_copy");
 
-            let imageId = null;
+            let imageId: number | null = null;
 
-            // Se houver um arquivo de imagem, armazena a imagem no banco
             if (imageFile) {
                 const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
                 const [imageResult] = await connection.query(
                     "INSERT INTO imagens (nome, imagem) VALUES (?, ?)",
                     [imageFile.name, imageBuffer]
                 );
-                imageId = imageResult.insertId;
+                imageId = (imageResult as any).insertId;
             }
 
-            // Insere os dados no banco
             const [result] = await connection.query(
                 "INSERT INTO turmas (nameClass, grupo, professorName, imagem_id) VALUES (?, ?, ?, ?)",
                 [nameClass, group, professorName, imageId]

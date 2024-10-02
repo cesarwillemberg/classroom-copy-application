@@ -24,7 +24,7 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
             <div className="flex justify-between">
                 <button
                     onClick={toggleSidebar}
-                    className="p-3 rounded-lg bg-gray-50 hover:bg-gray-300 hover:rounded-full"
+                    className="p-1 rounded-lg bg-gray-50 hover:bg-gray-300 hover:rounded-full"
                     aria-label="Toggle Menu"
                     title='Menu Principal'
                 >

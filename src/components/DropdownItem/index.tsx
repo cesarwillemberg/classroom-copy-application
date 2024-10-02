@@ -15,7 +15,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ text, icon, src = "#"}) => 
         <Link href={src} >
             <li>
                 <button
-                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="flex items-center w-full text-left px-7 py-2 text-sm text-gray-700 hover:bg-gray-200"
                     role="menuitem"
                     >
                     {icon}
