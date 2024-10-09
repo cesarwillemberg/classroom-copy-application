@@ -3,6 +3,8 @@ import Image from 'next/image'
 import './index.module.css';
 import React from 'react';
 import { ContactRoundIcon, EllipsisVertical, FolderClosedIcon } from 'lucide-react';
+import { IonButton, IonDatetime } from '@ionic/react';
+
 
 interface CardProps {
     title: string;
@@ -24,9 +26,12 @@ const Card: React.FC<CardProps> = ({ title, grupo, professorName, deadline, acti
                         <p className='text-xs'>{grupo}</p>
                     </div>
                     <div className='relative rounded-full bg-white-600 flex items-center justify-center text-white ml-[2.5rem] -mt-5'>
-                        <button>
-                            <EllipsisVertical size={24} />
-                        </button>
+                  
+                <IonDatetime></IonDatetime>
+                <IonButton fill="clear">
+                    <EllipsisVertical size={24} />
+                </IonButton>
+
                     </div>
                 </div>
             </div>
@@ -60,12 +65,13 @@ const Card: React.FC<CardProps> = ({ title, grupo, professorName, deadline, acti
 
             {/* Footer */}
             <div className='flex justify-end items-center border-t-2 px-4 pt-6'>
-                <button className='bg-black-300 rounded-full flex items-center justify-center mx-5'>
+                <IonDatetime></IonDatetime>
+                <IonButton fill="clear" className="rounded-full flex items-center justify-center mx-5">
                     <ContactRoundIcon size={24} />
-                </button>
-                <button className="bg-black-300 rounded-full flex items-center justify-center">
+                </IonButton>
+                <IonButton fill="clear" className="rounded-full flex items-center justify-center">
                     <FolderClosedIcon size={24} />
-                </button>
+                </IonButton>
             </div>
         </li>
     );

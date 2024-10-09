@@ -7,7 +7,7 @@ import Dropdownbtn from "@/components/Dropdownbtn";
 import DropdownItem from "@/components/DropdownItem";
 import Sidebar, { SidebarContext } from "@/components/Sidebar";
 import { SidebarItem } from "@/components/SidebarItem";
-
+import '@ionic/react/css/core.css';
 
 import { 
     Calendar,
