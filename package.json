@@ -13,6 +13,10 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@ionic/react": "^8.3.2",
+<<<<<<< HEAD
+=======
+    "@ionic/react-router": "^8.3.2",
+>>>>>>> 940914e41393ef20e7d51c6d1dde0cfdbbe27a06
     "formidable": "^3.5.1",
     "lucide-react": "^0.441.0",
     "mysql2": "^3.11.3",
