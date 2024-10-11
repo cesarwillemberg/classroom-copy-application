@@ -76,7 +76,7 @@ export default function Home() {
                                 deadline={classData.deadline}
                                 activityDetails={classData.activityDetails}
                                 profileImage={classData.profileImage}
-                                />
+                                />gi
                             ))}
                         </CardParent>
                     </div>

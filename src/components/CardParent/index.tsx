@@ -1,16 +1,16 @@
-import './index.module.css';
+import { IonList } from '@ionic/react';
 import React from 'react';
 
 interface CardParentProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const CardParent: React.FC<CardParentProps> = ({ children }) => {
-    return (
-        <ol className='flex flex-wrap pt-4'>
-            {children}
-        </ol>
-    );
-}
+  return (
+    <IonList className="flex-wrap custom-list">
+      {children}
+    </IonList>
+  );
+};
 
 export default CardParent;

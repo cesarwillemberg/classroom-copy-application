@@ -1,8 +1,9 @@
 "use client";
 import React, { useContext } from "react";
 import { SidebarContext } from "@/components/Sidebar/index";
+import { IonItem, IonLabel } from "@ionic/react";
+import { Link } from "react-router-dom"; 
 import './index.module.css';
-import Link from "next/link";
 
 interface SidebarItemProps {
     icon: JSX.Element;
@@ -12,7 +13,7 @@ interface SidebarItemProps {
     src?: string;
 }
 
-export function SidebarItem({ icon, text, active, alert, src = "#"}: SidebarItemProps) {
+export function SidebarItem({ icon, text, active, alert, src = "#" }: SidebarItemProps) {
     const context = useContext(SidebarContext);
 
     if (!context) {
@@ -22,16 +23,21 @@ export function SidebarItem({ icon, text, active, alert, src = "#"}: SidebarItem
     const { expanded } = context;
 
     return (
-        <Link href={src}>
-            <li 
-                className={`
-                    relative flex items-center py-2 px-7 my-1 font-medium cursor-pointer transition-colors group
-                    ${active ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-gray-300"}
-            `}>
+        <Link to={src}>
+            <IonItem
+                className={`relative flex items-center py-2 my-1 font-medium cursor-pointer transition-colors group ${
+                    active ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-gray-300"
+                }`}
+                lines="none"
+            >
                 {icon}
-                <span className={`overflow-hidden text-sm transition-all ${expanded ? "w-50 ml-3" : "w-0"}`}>{text}</span>
-                {alert && <div className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "" : "top-2"}`}></div>}
-            </li>
+                <IonLabel className={`transition-all ${expanded ? "opacity-100" : "opacity-0"}`}>
+                    <span className={`overflow-hidden text-sm ${expanded ? "ml-3" : ""}`}>{text}</span>
+                </IonLabel>
+                {alert && (
+                    <div className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "" : "top-2"}`}></div>
+                )}
+            </IonItem>
         </Link>
     );
 }
